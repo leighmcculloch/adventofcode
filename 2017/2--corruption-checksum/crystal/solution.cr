@@ -1,3 +1,12 @@
 def part1(spreadsheet : String)
-	spreadsheet.split("\n").map { |r| r.split(/\s+/).map { |c| c.to_i } }.map { |r| r.max - r.min }.sum
+  rows = spreadsheet.split("\n")
+  cols = rows.map do |row|
+    row.split(/\s+/).map do |column|
+      column.to_i
+    end
+  end
+  matrix = cols.map do |row|
+    row.max - row.min
+  end
+  matrix.sum
 end
