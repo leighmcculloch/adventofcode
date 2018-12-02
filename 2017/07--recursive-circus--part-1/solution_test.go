@@ -38,9 +38,9 @@ cntj (57)`, `tknk`},
 		t.Run(c.input, func(t *testing.T) {
 			s := Part1(c.input)
 			if g, w := s, c.wantOutput; g == w {
-				t.Logf("got %d, want %d", g, w)
+				t.Logf("got %s, want %s", g, w)
 			} else {
-				t.Errorf("got %d, want %d", g, w)
+				t.Errorf("got %s, want %s", g, w)
 			}
 		})
 	}
