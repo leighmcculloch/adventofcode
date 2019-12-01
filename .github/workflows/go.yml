@@ -7,6 +7,7 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: 1.13.x
+      - run: go version
       - uses: actions/checkout@v1
       - run: go build ./...
   test:
@@ -15,5 +16,6 @@ jobs:
       - uses: actions/setup-go@v1
         with:
           go-version: 1.13.x
+      - run: go version
       - uses: actions/checkout@v1
       - run: go test ./...
