@@ -13,4 +13,4 @@ def calculate_sum(filename)
   return sum
 end
 
-puts "sum: #{calculate_sum("../input.txt")}"
+puts "sum: #{calculate_sum("2018/01--chronal-calibration/input.txt")}"
