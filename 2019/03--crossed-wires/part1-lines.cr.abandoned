@@ -1,0 +1,38 @@
+class Line
+  getter x0 : Int32
+  getter y0 : Int32
+  getter x1 : Int32
+  getter y1 : Int32
+  def initialize(@x0, @y0, @x1, @y1); end
+
+  def intersects?(o : Line) : Bool
+    (
+      (o.x0 < x0 && o.x1 > x0 && o.y0 > y0 && o.y1 < y1) ||
+      (o.x0 < x0 && o.x1 > x0 && o.y0 > y0 && o.y1 < y1)
+    )
+  end
+end
+
+def create_lines(input : String) : Array(Line)
+  x0, y0 = 0, 0
+  input.split(",").map do |dest|
+    x1, y1 = x0, y0
+    dir = dest[0]
+    val = dest[1..].to_i
+    case dir
+    when 'R'
+      x1 += val
+    when 'L'
+      x1 -= val
+    when 'U'
+      y1 += val
+    when 'D'
+      y1 -= val
+    end
+    Line.new(x0: x0, y0: y0, x1: x1, y1: y1)
+  end
+end
+
+lines1 = create_lines("R75,D30,R83,U83,L12,D49,R71,U7,L72")
+
+lines2 = create_lines("U62,R66,U55,R34,D71,R55,D58,R83")
