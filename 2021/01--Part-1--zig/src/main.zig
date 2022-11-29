@@ -4,7 +4,7 @@ const input = @embedFile("input.txt");
 
 pub fn main() !void {
     var lines = std.mem.tokenize(u8, input, "\n");
-    var nums = mapToInt(u64, lines);
+    var nums = map(std.fmt.ParseIntError!u64, lines, struct { pub fn f(s: []const u8) !u64 { return std.fmt.parseInt(u64, s, 10); } }.f);
     var lastn = try (nums.next() orelse return);
     var increased : u64 = 0;
     while (nums.next()) |maybe_n| {
@@ -17,12 +17,20 @@ pub fn main() !void {
     std.log.info("{d}", .{increased});
 }
 
-pub fn mapToInt(comptime T: type, iter: anytype) struct {
+pub fn map(
+    comptime U: type,
+    iter: anytype,
+    f: *const fn (t: @typeInfo(@TypeOf(blk: { var copy = iter; break :blk copy.next(); })).Optional.child) U,
+) struct {
     iter: @TypeOf(iter),
-    pub fn next(self: *@This()) ?std.fmt.ParseIntError!T {
+    f: *const fn (t: @typeInfo(@TypeOf(blk: { var copy = iter; break :blk copy.next(); })).Optional.child) U,
+    pub fn next(self: *@This()) ?U {
         const res = self.iter.next() orelse return null;
-        return std.fmt.parseInt(T, res, 10);
+        return self.f(res);
     }
 } {
-    return .{ .iter = iter };
+    return .{
+        .iter = iter,
+        .f = f,
+    };
 }
